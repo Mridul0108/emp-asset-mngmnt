@@ -6,11 +6,6 @@ from app.routers.asset import router as asset_router
 from app.routers.dashboard import router as dashboard_router
 
 
-
-
-
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title="Slack",
 )
