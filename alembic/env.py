@@ -8,6 +8,7 @@ from app.db.database import DATABASE_URL, Base
 # Import ALL your models here
 from app.models.employee import Employee
 from app.models.asset import Asset
+from app.models.user import User
 
 config = context.config
 
