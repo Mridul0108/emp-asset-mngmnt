@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
@@ -10,14 +10,14 @@ from app.schemas.asset import (
     UpdateAsset,
     AssetResponse,
 )
+from app.service.asset import (
+    create_asset_service,
+    get_asset_service,
+    get_all_assets_service,
+    update_asset_service,
+    patch_asset_service,
+    delete_asset_service
 
-from app.crud.asset import (
-    create_asset,
-    get_asset,
-    get_all_assets,
-    update_asset,
-    patch_asset,
-    delete_asset,
 )
 
 router = APIRouter(
@@ -35,7 +35,7 @@ def create_asset_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return create_asset(db, asset)
+    return create_asset_service(db, asset)
 
 
 @router.get(
@@ -46,7 +46,7 @@ def get_all_asset_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return get_all_assets(db)
+    return get_all_assets_service(db)
 
 
 @router.get(
@@ -58,18 +58,12 @@ def get_asset_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    asset = get_asset(
+    return get_asset_service(
         db,
         asset_code,
     )
 
-    if asset is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Asset not found.",
-        )
 
-    return asset
 
 
 @router.put(
@@ -82,7 +76,7 @@ def update_asset_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return update_asset(
+    return update_asset_service(
         db,
         asset_code,
         asset,
@@ -99,7 +93,7 @@ def patch_asset_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return patch_asset(
+    return patch_asset_service(
         db,
         asset_code,
         asset,
@@ -112,7 +106,7 @@ def delete_asset_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return delete_asset(
+    return delete_asset_service(
         db,
         asset_code,
     )

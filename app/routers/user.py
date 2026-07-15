@@ -13,9 +13,9 @@ from app.schemas.user import (
     UserResponse,
     Token,
 )
-from app.crud.user import (
-    register_user,
-    login_user,
+from app.service.user import (
+    register_service,
+    login_service,
 )
 
 router = APIRouter(
@@ -41,7 +41,7 @@ def register(
         password=password,
     )
 
-    return register_user(
+    return register_service(
         db=db,
         user=user,
     )
@@ -57,12 +57,12 @@ def login(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
+   
     login_data = LoginUser(
         email=email,
         password=password,
     )
-
-    return login_user(
+    return login_service(
         db=db,
         user=login_data,
     )

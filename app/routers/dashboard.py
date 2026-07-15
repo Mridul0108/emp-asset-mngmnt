@@ -6,7 +6,7 @@ from app.core.auth import get_current_user
 from app.models.user import User
 
 from app.schemas.dashboard import DashboardResponse
-from app.crud.dashboard import get_dashboard
+from app.service.dashboard import get_dashboard_service
 
 router = APIRouter(
     prefix="/dashboard",
@@ -18,8 +18,8 @@ router = APIRouter(
     "/",
     response_model=DashboardResponse,
 )
-def dashboard(
+def dashboard_router(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return get_dashboard(db)
+    return get_dashboard_service(db)
